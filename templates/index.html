@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Price Predictor</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            margin: 20px 0;
+        }
+        select, input[type="submit"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-right: 10px;
+        }
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 25px;
+            font-size: 20px;
+            color: #444;
+        }
+        .graph {
+            margin-top: 30px;
+        }
+        img {
+            width: 100%;
+            max-width: 700px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📈 Stock Price Predictor</h2>
+        <form method="post">
+            <label for="ticker">Select Stock:</label>
+            <select name="ticker" id="ticker" required>
+                {% for name, code in tickers.items() %}
+                    <option value="{{ code }}" {% if selected_ticker == code %}selected{% endif %}>{{ name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Predict">
+        </form>
+
+        {% if prediction %}
+            <div class="result">
+                Predicted Next Close Price for <strong>{{ selected_ticker }}</strong>: ₹{{ prediction }}
+            </div>
+        {% endif %}
+
+        {% if plot_url %}
+            <div class="graph">
+                <h3>Last 60 Days Closing Prices</h3>
+                <img src="{{ plot_url }}" alt="Stock Price Plot">
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
